@@ -1,10 +1,13 @@
 package kr.co.kokono.webstudy.web;
 
 import kr.co.kokono.webstudy.service.posts.PostsService;
+import kr.co.kokono.webstudy.web.dto.PostsResponseDto;
 import kr.co.kokono.webstudy.web.dto.PostsSaveRequestDto;
 import kr.co.kokono.webstudy.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -12,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class PostsApiController {
 
     private final PostsService postsService;
+
+    @GetMapping("/api/v1/posts/{id}")
+    public PostsResponseDto getPost(@PathVariable Long id) {
+        return postsService.findById(id);
+    }
 
     @PostMapping("/api/v1/posts")
     public Long save(@RequestBody PostsSaveRequestDto requestDto) {
