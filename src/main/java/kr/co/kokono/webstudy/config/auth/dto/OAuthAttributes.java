@@ -27,6 +27,15 @@ public class OAuthAttributes {
     //To return User values took from OAuth2User object
     public static OAuthAttributes of(String registrationId, String userNameAttributesName,
                                      Map<String, Object> attributes) {
+
+        if("naver".equals(registrationId)) {
+            return ofNaver("id", attributes);
+        }
+        return ofGoogle(userNameAttributesName, attributes);
+    }
+
+    private static OAuthAttributes ofGoogle(String userNameAttributesName, Map<String, Object> attributes) {
+
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -34,6 +43,24 @@ public class OAuthAttributes {
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributesName)
                 .build();
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAtrributeName, Map<String, Object> attributes) {
+
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        System.out.println("Naver Response=" + response);
+
+        OAuthAttributes attr = OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
+                .nameAttributeKey(userNameAtrributeName)
+                .build();
+
+        System.out.println("Naver email=" + attr.getEmail());
+
+        return attr;
     }
 
     public User toEntity() {
