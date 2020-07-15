@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.Collections;
 
-@EnableJpaAuditing //Active JPA Auditing
+//@EnableJpaAuditing //Active JPA Auditing
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
